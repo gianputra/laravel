@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use DB;
-
+use App\Article;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
 {
     public function index()
     {
-        $articles = DB::table('articles')->get();
-        // dd($articles);
+        $articles = Article::get();
         return view('about', compact('articles'));
     }
 }
