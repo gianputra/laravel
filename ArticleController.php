@@ -16,18 +16,20 @@ class ArticleController extends Controller
     {
 
         //validasi
-        request()->validate([
-            'title' => ['required'],
+        $attr = request()->validate([
+            'title' => ['required', 'min:3', 'max:191'],
             'content' => ['required'],
 
         ]);
 
-        $article = new Article;
-        $article->title = request('title');
-        $article->slug = \Str::slug(request('title')) . '-' . \Str::random(5);
-        $article->content = request('content');
-        $article->save();
+        Article::create($attr);
 
         return back();
+    }
+
+    public function show($slug)
+    {
+        $article = Article::whereSlug($slug)->first();
+        return view('article.show', compact('article'));
     }
 }
